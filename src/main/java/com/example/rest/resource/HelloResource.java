@@ -2,6 +2,7 @@ package com.example.rest.resource;
 
 import com.example.rest.dto.MessageDto;
 import com.example.rest.exception.MyException;
+import java.io.IOException;
 import org.glassfish.jersey.server.mvc.ErrorTemplate;
 import org.glassfish.jersey.server.mvc.Viewable;
 
@@ -38,7 +39,7 @@ public class HelloResource {
             @Pattern(message = "{name.pattern}", regexp = "[a-zA-Z]*")
             String name) throws Exception {
         if (name.equals("zzz")) {
-            throw new MyException("EXCEPTION!!");
+            throw new NullPointerException("EXCEPTION IN CONROLLER!!");
         }
 
         messageDto.setMessage("Hello, " + name);
