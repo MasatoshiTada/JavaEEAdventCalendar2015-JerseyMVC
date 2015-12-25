@@ -14,7 +14,7 @@ public class MyApplication extends ResourceConfig {
     public MyApplication() {
         // Jersey MVCの登録、ビューとしてJSPを使う
         register(JspMvcFeature.class);
-
+        // Jersey MVCにおけるBean Validationを有効化する
         register(MvcBeanValidationFeature.class);
         // JSPファイルを保存するフォルダを指定する
         property(JspMvcFeature.TEMPLATE_BASE_PATH, "/WEB-INF/views/");

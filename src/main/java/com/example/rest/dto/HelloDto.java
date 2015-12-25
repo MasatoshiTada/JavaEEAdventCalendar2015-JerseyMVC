@@ -6,9 +6,9 @@ import javax.inject.Named;
 /**
  * Created by tada on 2015/12/24.
  */
-@Named
+@Named("hello")
 @RequestScoped
-public class MessageDto {
+public class HelloDto {
     private String message;
 
     public String getMessage() {

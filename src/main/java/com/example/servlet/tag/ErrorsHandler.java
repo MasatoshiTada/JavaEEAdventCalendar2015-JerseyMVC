@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by tada on 2015/12/24.
  */
-public class MvcErrorsHandler extends SimpleTagSupport {
+public class ErrorsHandler extends SimpleTagSupport {
 
     private String errorClass;
 

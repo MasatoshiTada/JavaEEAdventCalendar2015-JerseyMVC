@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>名前入力画面(相対パス)</title>
+    <title>名前入力画面(絶対パス)</title>
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
