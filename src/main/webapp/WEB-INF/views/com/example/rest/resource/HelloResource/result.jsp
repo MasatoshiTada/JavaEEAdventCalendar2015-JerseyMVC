@@ -5,6 +5,6 @@
     <title>メッセージ表示画面(相対パス)</title>
 </head>
 <body>
-    <c:out value="${hello.message}"/>
+    <c:out value="${model.hello.message}"/>
 </body>
 </html>

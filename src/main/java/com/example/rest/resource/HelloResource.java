@@ -5,19 +5,16 @@ import com.example.rest.exception.MyException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 
 import com.example.rest.exception.MyRuntimeException;
 import org.glassfish.jersey.server.mvc.ErrorTemplate;
 import org.glassfish.jersey.server.mvc.Viewable;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -28,9 +25,6 @@ import javax.ws.rs.core.UriInfo;
 @Path("hello")
 @RequestScoped
 public class HelloResource {
-
-    @Inject
-    private HelloDto helloDto;
 
     @GET
     @Path("index")
@@ -43,12 +37,44 @@ public class HelloResource {
     @Path("result")
     @ErrorTemplate(name = "index.jsp") // 相対パス
 //    @ErrorTemplate(name = "/hello/index.jsp") // 絶対パス
-    public Viewable result(@QueryParam("name") @DefaultValue("")
+    public Viewable resultGet(@QueryParam("name") @DefaultValue("")
             @Size(message = "{name.size}", min = 1, max = 10)
             @Pattern(message = "{name.pattern}", regexp = "[a-zA-Z]*")
             String name) throws Exception {
+        System.out.println("========================== resultGet ===================");
         // 例外を起こすサンプル
-        switch (name) {
+        throwException(name);
+        // 本来の処理
+        HelloDto helloDto = new HelloDto();
+        helloDto.setMessage("Hello, " + name);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("hello", helloDto);
+//        return new Viewable("/hello/result.jsp"); // 絶対パス
+        return new Viewable("result.jsp", map); // 相対パス
+    }
+
+    @POST
+    @Path("result")
+    @ErrorTemplate(name = "index.jsp") // 相対パス
+//    @ErrorTemplate(name = "/hello/index.jsp") // 絶対パス
+    public Viewable result(@FormParam("name") @DefaultValue("")
+                           @Size(message = "{name.size}", min = 1, max = 10)
+                           @Pattern(message = "{name.pattern}", regexp = "[a-zA-Z]*")
+                           String name) throws Exception {
+        System.out.println("========================== resultPost ===================");
+        // 例外を起こすサンプル
+        throwException(name);
+        // 本来の処理
+        HelloDto helloDto = new HelloDto();
+        helloDto.setMessage("Hello, " + name);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("hello", helloDto);
+//        return new Viewable("/hello/result.jsp"); // 絶対パス
+        return new Viewable("result.jsp", map); // 相対パス
+    }
+
+    private void throwException(String value) throws Exception {
+        switch (value) {
             case "null":
                 throw new NullPointerException("NULLPO!");
             case "myrun":
@@ -62,11 +88,6 @@ public class HelloResource {
             case "ex":
                 throw new Exception("EXCEPTION!");
         }
-
-        // 本来の処理
-        helloDto.setMessage("Hello, " + name);
-//        return new Viewable("/hello/result.jsp"); // 絶対パス
-        return new Viewable("result.jsp"); // 相対パス
     }
 
     @GET
